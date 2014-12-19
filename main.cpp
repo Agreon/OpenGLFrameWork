@@ -1,48 +1,30 @@
-#include <stdlib.h>
-#include <GL/glut.h>
+#include <iostream>
+#include <SDL2/SDL.h>
 
-void keyboard(unsigned char key, int x, int y);
-void display(void);
-
-// TODO: Make an Wrapper
-
-int main(int argc, char** argv)
-{
-    glutInit(&argc, argv);
-    glutCreateWindow("GLUT Test");
-    glutKeyboardFunc(&keyboard);
-    glutDisplayFunc(&display);
-    glutMainLoop();
-
-    return EXIT_SUCCESS;
-}
-
-
-void keyboard(unsigned char key, int x, int y)
-{
-    switch (key)
+int main(int argc, char **argv){
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
-        case '\x1B':
-            exit(EXIT_SUCCESS);
-            break;
-            default:
-                break;
+        std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
+        return 1;
     }
-}
 
+    //The window we'll be rendering to
+     SDL_Window* window = NULL;
+    // The surface contained by the window
+    SDL_Surface* screenSurface = NULL;
 
-void display()
-{
-    glClear(GL_COLOR_BUFFER_BIT);
+    window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1080, 720, SDL_WINDOW_SHOWN );
 
-    glColor3f(1.0f, 0.0f, 0.0f);
+    //Get window surface
+    screenSurface = SDL_GetWindowSurface( window );
+    //Fill the surface white
+    SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xAA, 0xFF, 0xFF ) );
+    //Update the surface
+    SDL_UpdateWindowSurface( window );
+    //Wait two seconds
+    SDL_Delay( 2000 );
 
-    glBegin(GL_POLYGON);
-    glVertex2f(-0.5f, -0.5f);
-    glVertex2f( 0.5f, -0.5f);
-    glVertex2f( 0.5f,  0.5f);
-    glVertex2f(-0.5f,  0.5f);
-    glEnd();
+    SDL_Quit();
 
-    glFlush();
+    return 0;
 }
