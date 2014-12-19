@@ -4,6 +4,7 @@
 void keyboard(unsigned char key, int x, int y);
 void display(void);
 
+// TODO: Make an Wrapper
 
 int main(int argc, char** argv)
 {
@@ -24,6 +25,8 @@ void keyboard(unsigned char key, int x, int y)
         case '\x1B':
             exit(EXIT_SUCCESS);
             break;
+            default:
+                break;
     }
 }
 
